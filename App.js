@@ -1,20 +1,51 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import HomePage from './views/HomePage';
+import SignInPage from './views/SignInPage';
+import SearchPage from './views/SearchPage';
+import FavoritePage from './views/FavoritePage';
+import ProfilePage from './views/ProfilePage';
 
-export default function App() {
+const Drawer = createDrawerNavigator ();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator
+        initialRouteName="Página Inicial"
+        // screenOptions={{
+        //   headerShown: false,
+        // }}
+      >
+        <Drawer.Screen
+          name="Página Inicial"
+          component={HomePage}
+          options={{ drawerLabel: 'Página Inicial' }}
+        />
+        <Drawer.Screen
+          name="Login"
+          component={SignInPage}
+          options={{ drawerLabel: 'Login' }}
+        />
+        <Drawer.Screen
+          name="Pesquisar"
+          component={SearchPage}
+          options={{ drawerLabel: 'Pesquisar' }}
+        />
+        <Drawer.Screen
+          name="Meus Favoritos"
+          component={FavoritePage}
+          options={{ drawerLabel: 'Meus Favoritos' }}
+        />
+        <Drawer.Screen
+          name="Perfil"
+          component={ProfilePage}
+          options={{ drawerLabel: 'Perfil' }}
+        />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
