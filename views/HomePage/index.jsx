@@ -1,6 +1,7 @@
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import SectionShort from '../../components/sectionShort';
+import SectionShort from '../../components/SectionShort';
 import { View } from 'react-native';
+import Footer from '../../components/Footer';
 
 const HomePage = () => {
     return (
@@ -13,6 +14,8 @@ const HomePage = () => {
             <SectionShort backgroundActive={false} />
             <SectionShort backgroundActive={true} />
             <SectionShort backgroundActive={false} />
+
+            <Footer />
         </ScrollView>
     );
 };
