@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomePage from './views/HomePage';
@@ -14,9 +15,15 @@ const App = () => {
     <NavigationContainer>
       <Drawer.Navigator
         initialRouteName="Página Inicial"
-        // screenOptions={{
-        //   headerShown: false,
-        // }}
+        screenOptions={{
+          headerStyle: styles.header,
+          headerTintColor: '#66FCF1',
+          headerTitleStyle: styles.headerTitle,
+          drawerStyle: styles.drawer,
+          drawerActiveTintColor: '#45A29E',
+          drawerInactiveTintColor: '#333',
+          drawerLabelStyle: styles.drawerLabel,
+        }}
       >
         <Drawer.Screen
           name="Página Inicial"
@@ -47,5 +54,23 @@ const App = () => {
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  header: {
+    backgroundColor: '#0B0C10',
+  },
+  headerTitle: {
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  drawer: {
+    backgroundColor: '#C5C6C7',
+    width: 240,
+  },
+  drawerLabel: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
 
 export default App;
