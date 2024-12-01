@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, View, Text, StyleSheet, Platform } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Platform } from 'react-native';
 import MovieCard from '../MovieCard';
 import tmdbApi from '../../service/tmdbApi';
 
@@ -54,28 +54,21 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
     return (
         <View style={[styles.sectionContainer, { backgroundColor: backgroundActive ? "#1F2833" : "black" }]}>
             <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>Section Name</Text>
+                <Text style={styles.titleText}>{sectionName}</Text>
             </View>
 
-            <View style={styles.rowContainer}>
-                <FlatList
-                    data={movieInCategory.slice(0, NUM_CARDS_WEB)}
-                    keyExtractor={(movie) => movie.id.toString()}
-                    renderItem={({ item }) => (
-                        <MovieCard
-                            id={item.id}
-                            title={item.title}
-                            poster={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-                            releaseDate={item.release_date}
-                            score={item.vote_average}
-                        />
-                    )}
-                    numColumns={2}
-                    columnWrapperStyle={styles.gridContainer}
-                    contentContainerStyle={styles.flatListContainer}
-                />
-
-            </View>
+            <ScrollView horizontal contentContainerStyle={styles.rowContainer}>
+                {movieInCategory.slice(0, NUM_CARDS_MOBILE).map((item) => (
+                    <MovieCard
+                        key={item.id}
+                        id={item.id}
+                        title={item.title}
+                        poster={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                        releaseDate={item.release_date}
+                        score={item.vote_average}
+                    />
+                ))}
+            </ScrollView>
 
             <View style={styles.sectionLink}>
                 <Text style={styles.linkText}>Ver mais...</Text>
