@@ -5,7 +5,7 @@ import MovieCard from '../MovieCard';
 const NUM_CARDS_WEB = 8;
 const NUM_CARDS_MOBILE = 10;
 
-const SectionShort = ({ backgroundActive }) => {
+const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
     const cardsData = Array.from({ length: Platform.OS === 'web' ? NUM_CARDS_WEB : NUM_CARDS_MOBILE }, (_, index) => ({
         id: index.toString(),
         title: `Movie ${index + 1}`,
@@ -15,7 +15,7 @@ const SectionShort = ({ backgroundActive }) => {
         return (
             <View style={[styles.sectionContainer, { backgroundColor: backgroundActive ? "#1F2833" : "black" }]}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>Section Name</Text>
+                    <Text style={styles.titleText}>{sectionName}</Text>
                 </View>
                 
                 <View style={styles.gridContainer}>
