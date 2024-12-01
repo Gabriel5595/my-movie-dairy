@@ -1,15 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, View, Text, StyleSheet, Platform } from 'react-native';
 import MovieCard from '../MovieCard';
+import tmdbApi from '../../service/tmdbApi';
 
 const NUM_CARDS_WEB = 8;
 const NUM_CARDS_MOBILE = 10;
 
 const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
-    const cardsData = Array.from({ length: Platform.OS === 'web' ? NUM_CARDS_WEB : NUM_CARDS_MOBILE }, (_, index) => ({
-        id: index.toString(),
-        title: `Movie ${index + 1}`,
-    }));
+
+    const [movieInCategory, setMovieInCategory] = useState([])
+
+    const BASE_URL = 'https://api.themoviedb.org/3'
+
+    useEffect(() => {
+        const headers = tmdbApi();
+
+        fetch(`${BASE_URL}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${sectionId}`, headers)
+            .then(response => response.json())
+            .then(json => setMovieInCategory(json.results))
+            .catch(err => console.log(err))
+    }, []);
+
+    useEffect(() => {
+        console.log(movieInCategory)
+    }, [movieInCategory])
 
     if (Platform.OS === 'web') {
         return (
@@ -17,10 +31,16 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>{sectionName}</Text>
                 </View>
-                
+
                 <View style={styles.gridContainer}>
-                    {cardsData.map((card) => (
-                        <MovieCard key={card.id} title={card.title} />
+                    {movieInCategory.slice(0, NUM_CARDS_WEB).map((movie) => (
+                        <MovieCard
+                            key={movie.id}
+                            id={movie.id}
+                            title={movie.title}
+                            poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            releaseDate={movie.release_date}
+                            score={movie.vote_average} />
                     ))}
                 </View>
 
@@ -39,21 +59,30 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
 
             <View style={styles.rowContainer}>
                 <FlatList
-                data={cardsData}
-                renderItem={({ item }) => <MovieCard title={item.title} />}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={true}
-                contentContainerStyle={styles.carousel}
+                    data={movieInCategory.slice(0, NUM_CARDS_WEB)}
+                    keyExtractor={(movie) => movie.id.toString()}
+                    renderItem={({ item }) => (
+                        <MovieCard
+                            id={item.id}
+                            title={item.title}
+                            poster={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                            releaseDate={item.release_date}
+                            score={item.vote_average}
+                        />
+                    )}
+                    numColumns={2}
+                    columnWrapperStyle={styles.gridContainer}
+                    contentContainerStyle={styles.flatListContainer}
                 />
+
             </View>
 
             <View style={styles.sectionLink}>
-                    <Text style={styles.linkText}>Ver mais...</Text>
+                <Text style={styles.linkText}>Ver mais...</Text>
             </View>
-            
+
         </View>
-        
+
     );
 };
 

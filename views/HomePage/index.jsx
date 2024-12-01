@@ -8,12 +8,13 @@ import tmdbApi from '../../service/tmdbApi';
 const HomePage = () => {
 
     const [movies, setMovies] = useState([]);
-    const [backgroundActive, setBackgroundActive] = useState(true)
 
     const BASE_URL = 'https://api.themoviedb.org/3'
 
     useEffect(() => {
-        fetch(`${BASE_URL}/genre/movie/list`, tmdbApi)
+        const headers = tmdbApi();
+
+        fetch(`${BASE_URL}/genre/movie/list`, headers)
             .then(response => response.json())
             .then(json => setMovies(json.genres))
             .catch(err => console.log(err))
@@ -32,14 +33,17 @@ const HomePage = () => {
             <FlatList 
                 data={movies}
                 keyExtractor={(item) => item.id.toString()}
-                renderItem={({item}) => (
-                    <SectionShort backgroundActive={true} sectionId={item.id} sectionName={item.name}/>
-                )}
+                renderItem={({item, index}) => {
+                    const backgroundActive = index % 2 === 0 ? true : false;
+                    return (
+                        <SectionShort 
+                            backgroundActive={backgroundActive}
+                            sectionId={item.id}
+                            sectionName={item.name}
+                        />
+                    )
+                }}
             />
-            <SectionShort backgroundActive={true} />
-            <SectionShort backgroundActive={false} />
-            <SectionShort backgroundActive={true} />
-            <SectionShort backgroundActive={false} />
 
             <Footer />
         </ScrollView>

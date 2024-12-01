@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
-const MovieCard = () => {
+const MovieCard = ({ poster, score, title, releaseDate }) => {
+
+
     return (
         <View style={styles.cardContainer}>
             
@@ -9,21 +11,21 @@ const MovieCard = () => {
                 <View style={styles.posterContainer}>
                     <Image 
                         style={styles.poster}
-                        source={{ uri: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/443b18186095503.656f58fc0b6e1.png"}}/>
+                        source={{ uri: poster}}/>
                 </View>
 
                 <View style={styles.scoreContainer}>
-                    <Text style={styles.scoreText}>88</Text>
+                    <Text style={styles.scoreText}>{parseFloat(score).toFixed(1)}</Text>
                 </View>
             </View>
 
             <View style={styles.textContainer}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>Arcane</Text>
+                    <Text style={styles.titleText}>{title}</Text>
                 </View>
 
                 <View style={styles.releaseContainer}>
-                    <Text>06 de nov de 2021</Text>
+                    <Text>{releaseDate.split('-').reverse().join('.')}</Text>
                 </View>
             </View>
         </View>
@@ -33,7 +35,7 @@ const MovieCard = () => {
 const styles = StyleSheet.create({
     cardContainer: {
         margin: 10,
-        height: 280,
+        height: 350,
         width: 160,
         display: "flex",
         flexDirection: "column",
@@ -72,11 +74,16 @@ const styles = StyleSheet.create({
 
     textContainer: {
         margin: 10,
-        width: 140
+        width: 140,
+        flex: 1
     },
     titleText: {
         fontSize: 20,
         fontWeight: "bold"
+    },
+
+    titleContainer :{
+        flex: 1,
     }
 });
 
