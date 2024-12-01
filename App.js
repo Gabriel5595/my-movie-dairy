@@ -8,6 +8,8 @@ import SearchPage from './views/SearchPage';
 import FavoritePage from './views/FavoritePage';
 import ProfilePage from './views/ProfilePage';
 
+//Sprint 2
+
 const Drawer = createDrawerNavigator ();
 
 const App = () => {
