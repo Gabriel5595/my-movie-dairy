@@ -1,34 +1,39 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const MovieCard = ({ poster, score, title, releaseDate }) => {
-
+const MovieCard = ({ poster, score, title, releaseDate, id }) => {
+    const navigation = useNavigation();
 
     return (
-        <View style={styles.cardContainer}>
-            
-            <View style={styles.basicContainer}>
-                <View style={styles.posterContainer}>
-                    <Image 
-                        style={styles.poster}
-                        source={{ uri: poster}}/>
+        <Pressable
+            onPress={() => navigation.navigate('MovieDetailPage', {poster, score, title, releaseDate, id})}
+        >
+            <View style={styles.cardContainer}>
+                
+                <View style={styles.basicContainer}>
+                    <View style={styles.posterContainer}>
+                        <Image 
+                            style={styles.poster}
+                            source={{ uri: poster}}/>
+                    </View>
+
+                    <View style={styles.scoreContainer}>
+                        <Text style={styles.scoreText}>{parseFloat(score).toFixed(1)}</Text>
+                    </View>
                 </View>
 
-                <View style={styles.scoreContainer}>
-                    <Text style={styles.scoreText}>{parseFloat(score).toFixed(1)}</Text>
+                <View style={styles.textContainer}>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.titleText}>{title}</Text>
+                    </View>
+
+                    <View style={styles.releaseContainer}>
+                        <Text>{releaseDate.split('-').reverse().join('.')}</Text>
+                    </View>
                 </View>
             </View>
-
-            <View style={styles.textContainer}>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>{title}</Text>
-                </View>
-
-                <View style={styles.releaseContainer}>
-                    <Text>{releaseDate.split('-').reverse().join('.')}</Text>
-                </View>
-            </View>
-        </View>
+        </Pressable>
     );
 };
 
@@ -58,6 +63,7 @@ const styles = StyleSheet.create({
         height: 200,
         resizeMode: "contain"
     },
+    
     scoreContainer: {
         width: 35,
         backgroundColor: "black",

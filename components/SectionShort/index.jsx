@@ -72,10 +72,10 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
             </ScrollView>
 
             <Pressable 
-                    onPress={() => navigation.navigate('SectionPage')}
+                    onPress={() => navigation.navigate('SectionPage', {sectionId, sectionName})}
                     style={styles.sectionLink}
                 >
-                <Text style={styles.linkText}>Ver mais...</Text>
+                    <Text style={styles.linkText}>Ver mais...</Text>
             </Pressable>
 
         </View>
