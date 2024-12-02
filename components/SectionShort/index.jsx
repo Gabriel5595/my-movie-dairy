@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, View, Text, StyleSheet, Platform } from 'react-native';
+import { ScrollView, View, Text, StyleSheet, Platform, Pressable } from 'react-native';
 import MovieCard from '../MovieCard';
 import tmdbApi from '../../service/tmdbApi';
+import { useNavigation } from '@react-navigation/native';
 
 const NUM_CARDS_WEB = 8;
 const NUM_CARDS_MOBILE = 10;
@@ -10,6 +11,7 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
 
     const [movieInCategory, setMovieInCategory] = useState([])
 
+    const navigation = useNavigation();
     const BASE_URL = 'https://api.themoviedb.org/3'
 
     useEffect(() => {
@@ -44,9 +46,12 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
                     ))}
                 </View>
 
-                <View style={styles.sectionLink}>
+                <Pressable 
+                    onPress={() => navigation.navigate('SectionPage')}
+                    style={styles.sectionLink}
+                >
                     <Text style={styles.linkText}>Ver mais...</Text>
-                </View>
+                </Pressable>
             </View>
         );
     }
