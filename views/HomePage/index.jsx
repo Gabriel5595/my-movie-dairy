@@ -20,10 +20,6 @@ const HomePage = () => {
             .catch(err => console.log(err))
     }, []);
 
-    useEffect(() => {
-        console.log(movies)
-    }, [movies])
-
     return (
         <ScrollView style={styles.container}>
             <View style={styles.textContainer}>

@@ -23,10 +23,6 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
             .catch(err => console.log(err))
     }, []);
 
-    useEffect(() => {
-        console.log(movieInCategory)
-    }, [movieInCategory])
-
     if (Platform.OS === 'web') {
         return (
             <View style={[styles.sectionContainer, { backgroundColor: backgroundActive ? "#1F2833" : "black" }]}>
@@ -47,7 +43,7 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
                 </View>
 
                 <Pressable 
-                    onPress={() => navigation.navigate('SectionPage')}
+                    onPress={() => navigation.navigate('SectionPage', {sectionId, sectionName})}
                     style={styles.sectionLink}
                 >
                     <Text style={styles.linkText}>Ver mais...</Text>
@@ -75,9 +71,12 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
                 ))}
             </ScrollView>
 
-            <View style={styles.sectionLink}>
+            <Pressable 
+                    onPress={() => navigation.navigate('SectionPage')}
+                    style={styles.sectionLink}
+                >
                 <Text style={styles.linkText}>Ver mais...</Text>
-            </View>
+            </Pressable>
 
         </View>
 
@@ -106,7 +105,6 @@ const styles = StyleSheet.create({
     carousel: {
         paddingHorizontal: 8,
     },
-    rowContainer: {},
     sectionLink: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
