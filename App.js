@@ -36,7 +36,7 @@ function DrawerNavigator() {
       <Drawer.Screen name="Profile" component={ProfilePage} />
     </Drawer.Navigator>
   );
-}
+};
 
 const App = () => {
   return (
@@ -46,7 +46,7 @@ const App = () => {
           headerStyle: styles.header,
           headerTintColor: '#66FCF1',
           headerTitleStyle: styles.headerTitle,
-          contentStyle: { flex: 1, backgroundColor: '#C5C6C7' }, // Aplica estilo ao conteúdo
+          contentStyle: { flex: 1, backgroundColor: '#C5C6C7' },
         }}
       >
         <Stack.Screen

@@ -79,7 +79,6 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
             </Pressable>
 
         </View>
-
     );
 };
 

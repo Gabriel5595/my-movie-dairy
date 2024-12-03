@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         backgroundColor: 'black'
+
     },
     textContainer: {
         marginHorizontal: 50,
