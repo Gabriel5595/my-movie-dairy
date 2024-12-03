@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
         height: 40,
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        backgroundColor: 'black'
     },
     textContainer: {
         marginHorizontal: 50,

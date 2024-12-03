@@ -1,56 +1,84 @@
 import React from 'react';
-import { StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './views/HomePage';
 import SignInPage from './views/SignInPage';
 import SearchPage from './views/SearchPage';
 import FavoritePage from './views/FavoritePage';
 import ProfilePage from './views/ProfilePage';
+import SectionPage from './views/SectionPage';
+import MovieDetailPage from './views/MovieDetailPage';
+import SignUpPage from './views/SignUpPage';
 
-const Drawer = createDrawerNavigator ();
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+function DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        headerStyle: styles.header,
+        headerTintColor: '#66FCF1',
+        headerTitleStyle: styles.headerTitle,
+        drawerStyle: styles.drawer,
+        drawerActiveTintColor: '#45A29E',
+        drawerInactiveTintColor: '#333',
+        drawerLabelStyle: styles.drawerLabel,
+      }}
+    >
+      <Drawer.Screen name="Home" component={HomePage} />
+      <Drawer.Screen name="Sign In" component={SignInPage} />
+      <Drawer.Screen name="Search" component={SearchPage} />
+      <Drawer.Screen name="My Favorites" component={FavoritePage} />
+      <Drawer.Screen name="Profile" component={ProfilePage} />
+    </Drawer.Navigator>
+  );
+}
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator
-        initialRouteName="Página Inicial"
+      <Stack.Navigator
         screenOptions={{
           headerStyle: styles.header,
           headerTintColor: '#66FCF1',
           headerTitleStyle: styles.headerTitle,
-          drawerStyle: styles.drawer,
-          drawerActiveTintColor: '#45A29E',
-          drawerInactiveTintColor: '#333',
-          drawerLabelStyle: styles.drawerLabel,
+          contentStyle: { flex: 1, backgroundColor: '#C5C6C7' }, // Aplica estilo ao conteúdo
         }}
       >
-        <Drawer.Screen
-          name="Página Inicial"
-          component={HomePage}
-          options={{ drawerLabel: 'Página Inicial' }}
+        <Stack.Screen
+          name="Drawer"
+          component={DrawerNavigator}
+          options={{ headerShown: false }}
         />
-        <Drawer.Screen
-          name="Login"
-          component={SignInPage}
-          options={{ drawerLabel: 'Login' }}
+        <Stack.Screen
+          name="Category"
+          component={SectionPage}
+          options={{
+            headerShown: true,
+            contentStyle: { flex: 1 },
+          }}
         />
-        <Drawer.Screen
-          name="Pesquisar"
-          component={SearchPage}
-          options={{ drawerLabel: 'Pesquisar' }}
+        <Stack.Screen
+          name="Movie Details"
+          component={MovieDetailPage}
+          options={{
+            headerShown: true,
+            contentStyle: { flex: 1 },
+          }}
         />
-        <Drawer.Screen
-          name="Meus Favoritos"
-          component={FavoritePage}
-          options={{ drawerLabel: 'Meus Favoritos' }}
+        <Stack.Screen
+          name='Sign Up'
+          component={SignUpPage}
+          options={{
+            headerShown: true,
+            contentStyle: { flex: 1 },
+          }}
         />
-        <Drawer.Screen
-          name="Perfil"
-          component={ProfilePage}
-          options={{ drawerLabel: 'Perfil' }}
-        />
-      </Drawer.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
