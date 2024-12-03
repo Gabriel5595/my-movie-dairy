@@ -43,7 +43,7 @@ const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
                 </View>
 
                 <Pressable 
-                    onPress={() => navigation.navigate('SectionPage', {sectionId, sectionName})}
+                    onPress={() => navigation.navigate('Category', {sectionId, sectionName})}
                     style={styles.sectionLink}
                 >
                     <Text style={styles.linkText}>Ver mais...</Text>

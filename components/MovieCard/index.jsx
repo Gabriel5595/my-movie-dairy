@@ -7,7 +7,7 @@ const MovieCard = ({ poster, score, title, releaseDate, id }) => {
 
     return (
         <Pressable
-            onPress={() => navigation.navigate('MovieDetailPage', {poster, score, title, releaseDate, id})}
+            onPress={() => navigation.navigate('Movie Details', {poster, score, title, releaseDate, id})}
         >
             <View style={styles.cardContainer}>
                 

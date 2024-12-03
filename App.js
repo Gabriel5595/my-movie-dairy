@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 function DrawerNavigator() {
   return (
     <Drawer.Navigator
-      initialRouteName="Página Inicial"
+      initialRouteName="Home"
       screenOptions={{
         headerStyle: styles.header,
         headerTintColor: '#66FCF1',
@@ -29,11 +29,11 @@ function DrawerNavigator() {
         drawerLabelStyle: styles.drawerLabel,
       }}
     >
-      <Drawer.Screen name="Página Inicial" component={HomePage} />
-      <Drawer.Screen name="Login" component={SignInPage} />
-      <Drawer.Screen name="Pesquisar" component={SearchPage} />
-      <Drawer.Screen name="Meus Favoritos" component={FavoritePage} />
-      <Drawer.Screen name="Perfil" component={ProfilePage} />
+      <Drawer.Screen name="Home" component={HomePage} />
+      <Drawer.Screen name="Sign In" component={SignInPage} />
+      <Drawer.Screen name="Search" component={SearchPage} />
+      <Drawer.Screen name="My Favorites" component={FavoritePage} />
+      <Drawer.Screen name="Profile" component={ProfilePage} />
     </Drawer.Navigator>
   );
 }
@@ -43,7 +43,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          contentStyle: { flex: 1 }, // Garante flex para todos os filhos
+          headerStyle: styles.header,
+          headerTintColor: '#66FCF1',
+          headerTitleStyle: styles.headerTitle,
+          contentStyle: { flex: 1, backgroundColor: '#C5C6C7' }, // Aplica estilo ao conteúdo
         }}
       >
         <Stack.Screen
@@ -52,7 +55,7 @@ const App = () => {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="SectionPage"
+          name="Category"
           component={SectionPage}
           options={{
             headerShown: true,
@@ -60,7 +63,7 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name="MovieDetailPage"
+          name="Movie Details"
           component={MovieDetailPage}
           options={{
             headerShown: true,
@@ -68,7 +71,7 @@ const App = () => {
           }}
         />
         <Stack.Screen
-          name='SignUpPage'
+          name='Sign Up'
           component={SignUpPage}
           options={{
             headerShown: true,
