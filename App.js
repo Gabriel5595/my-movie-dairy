@@ -10,6 +10,7 @@ import FavoritePage from './views/FavoritePage';
 import ProfilePage from './views/ProfilePage';
 import SectionPage from './views/SectionPage';
 import MovieDetailPage from './views/MovieDetailPage';
+import SignUpPage from './views/SignUpPage';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -61,6 +62,14 @@ const App = () => {
         <Stack.Screen
           name="MovieDetailPage"
           component={MovieDetailPage}
+          options={{
+            headerShown: true,
+            contentStyle: { flex: 1 },
+          }}
+        />
+        <Stack.Screen
+          name='SignUpPage'
+          component={SignUpPage}
           options={{
             headerShown: true,
             contentStyle: { flex: 1 },

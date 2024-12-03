@@ -1,15 +1,11 @@
 import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 
-const SignInPage = () => {
-
-    const navigation = useNavigation();
-
+const SignUpPage = () => {
     return (
         <View style={styles.container}>
-            <View style={styles.loginBox}>
-                <Text style={styles.title}>Login</Text>
+            <View style={styles.signUpBox}>
+                <Text style={styles.title}>Sign Up</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
@@ -20,14 +16,13 @@ const SignInPage = () => {
                     placeholder="Password"
                     secureTextEntry
                 />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Confirm password"
+                    secureTextEntry
+                />
                 <View style={styles.buttonContainer}>
-                    <Button title="Send" onPress={() => { }} />
-                </View>
-                <View style={styles.buttonContainer}>
-                    <Button 
-                        title="Sing Up" 
-                        onPress={() => navigation.navigate('SignUpPage')} 
-                        color="#841584" />
+                    <Button title="SEND" onPress={() => { }} />
                 </View>
             </View>
         </View>
@@ -41,7 +36,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f2f2f2',
     },
-    loginBox: {
+    signUpBox: {
         width: '80%',
         padding: 20,
         backgroundColor: '#ffffff',
@@ -72,4 +67,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SignInPage;
+export default SignUpPage;
