@@ -1,32 +1,53 @@
-import React from 'react';
-import { FlatList, View, Text, StyleSheet, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView, View, Text, StyleSheet, Platform, Pressable } from 'react-native';
 import MovieCard from '../MovieCard';
+import tmdbApi from '../../service/tmdbApi';
+import { useNavigation } from '@react-navigation/native';
 
 const NUM_CARDS_WEB = 8;
 const NUM_CARDS_MOBILE = 10;
 
-const SectionShort = ({ backgroundActive }) => {
-    const cardsData = Array.from({ length: Platform.OS === 'web' ? NUM_CARDS_WEB : NUM_CARDS_MOBILE }, (_, index) => ({
-        id: index.toString(),
-        title: `Movie ${index + 1}`,
-    }));
+const SectionShort = ({ backgroundActive, sectionId, sectionName }) => {
+
+    const [movieInCategory, setMovieInCategory] = useState([])
+
+    const navigation = useNavigation();
+    const BASE_URL = 'https://api.themoviedb.org/3'
+
+    useEffect(() => {
+        const headers = tmdbApi();
+
+        fetch(`${BASE_URL}/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${sectionId}`, headers)
+            .then(response => response.json())
+            .then(json => setMovieInCategory(json.results))
+            .catch(err => console.log(err))
+    }, []);
 
     if (Platform.OS === 'web') {
         return (
             <View style={[styles.sectionContainer, { backgroundColor: backgroundActive ? "#1F2833" : "black" }]}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>Section Name</Text>
+                    <Text style={styles.titleText}>{sectionName}</Text>
                 </View>
-                
+
                 <View style={styles.gridContainer}>
-                    {cardsData.map((card) => (
-                        <MovieCard key={card.id} title={card.title} />
+                    {movieInCategory.slice(0, NUM_CARDS_WEB).map((movie) => (
+                        <MovieCard
+                            key={movie.id}
+                            id={movie.id}
+                            title={movie.title}
+                            poster={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            releaseDate={movie.release_date}
+                            score={movie.vote_average} />
                     ))}
                 </View>
 
-                <View style={styles.sectionLink}>
+                <Pressable 
+                    onPress={() => navigation.navigate('Category', {sectionId, sectionName})}
+                    style={styles.sectionLink}
+                >
                     <Text style={styles.linkText}>Ver mais...</Text>
-                </View>
+                </Pressable>
             </View>
         );
     }
@@ -34,26 +55,30 @@ const SectionShort = ({ backgroundActive }) => {
     return (
         <View style={[styles.sectionContainer, { backgroundColor: backgroundActive ? "#1F2833" : "black" }]}>
             <View style={styles.titleContainer}>
-                <Text style={styles.titleText}>Section Name</Text>
+                <Text style={styles.titleText}>{sectionName}</Text>
             </View>
 
-            <View style={styles.rowContainer}>
-                <FlatList
-                data={cardsData}
-                renderItem={({ item }) => <MovieCard title={item.title} />}
-                keyExtractor={(item) => item.id}
-                horizontal
-                showsHorizontalScrollIndicator={true}
-                contentContainerStyle={styles.carousel}
-                />
-            </View>
+            <ScrollView horizontal contentContainerStyle={styles.rowContainer}>
+                {movieInCategory.slice(0, NUM_CARDS_MOBILE).map((item) => (
+                    <MovieCard
+                        key={item.id}
+                        id={item.id}
+                        title={item.title}
+                        poster={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
+                        releaseDate={item.release_date}
+                        score={item.vote_average}
+                    />
+                ))}
+            </ScrollView>
 
-            <View style={styles.sectionLink}>
+            <Pressable 
+                    onPress={() => navigation.navigate('SectionPage', {sectionId, sectionName})}
+                    style={styles.sectionLink}
+                >
                     <Text style={styles.linkText}>Ver mais...</Text>
-            </View>
-            
+            </Pressable>
+
         </View>
-        
     );
 };
 
@@ -79,7 +104,6 @@ const styles = StyleSheet.create({
     carousel: {
         paddingHorizontal: 8,
     },
-    rowContainer: {},
     sectionLink: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
