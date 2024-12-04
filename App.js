@@ -1,10 +1,7 @@
-//Sprint 3
-
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
 import HomePage from './views/HomePage';
 import SignInPage from './views/SignInPage';
 import SearchPage from './views/SearchPage';
@@ -15,7 +12,6 @@ import MovieDetailPage from './views/MovieDetailPage';
 import SignUpPage from './views/SignUpPage';
 
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
 
 function DrawerNavigator() {
   return (
@@ -31,11 +27,56 @@ function DrawerNavigator() {
         drawerLabelStyle: styles.drawerLabel,
       }}
     >
-      <Drawer.Screen name="Home" component={HomePage} />
-      <Drawer.Screen name="Sign In" component={SignInPage} />
-      <Drawer.Screen name="Search" component={SearchPage} />
-      <Drawer.Screen name="My Favorites" component={FavoritePage} />
-      <Drawer.Screen name="Profile" component={ProfilePage} />
+      <Drawer.Screen
+        name="Home"
+        component={HomePage}
+        options={{ title: 'Home Page' }}
+      />
+      <Drawer.Screen
+        name="SignIn"
+        component={SignInPage}
+        options={{ title: 'Sign In' }}
+      />
+      <Drawer.Screen
+        name="Search"
+        component={SearchPage}
+        options={{ title: 'Search Movies' }}
+      />
+      <Drawer.Screen
+        name="Favorites"
+        component={FavoritePage}
+        options={{ title: 'Favorites' }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={ProfilePage}
+        options={{ title: 'Profile' }}
+      />
+
+      <Drawer.Screen
+        name="Category"
+        component={SectionPage}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          title: 'Section',
+        }}
+      />
+      <Drawer.Screen
+        name="Movie Details"
+        component={MovieDetailPage}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          title: 'Movie Details',
+        }}
+      />
+      <Drawer.Screen
+        name="SignUp"
+        component={SignUpPage}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          title: 'Sign Up',
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -43,44 +84,7 @@ function DrawerNavigator() {
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: styles.header,
-          headerTintColor: '#66FCF1',
-          headerTitleStyle: styles.headerTitle,
-          contentStyle: { flex: 1, backgroundColor: '#C5C6C7' }, // Aplica estilo ao conteúdo
-        }}
-      >
-        <Stack.Screen
-          name="Drawer"
-          component={DrawerNavigator}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Category"
-          component={SectionPage}
-          options={{
-            headerShown: true,
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name="Movie Details"
-          component={MovieDetailPage}
-          options={{
-            headerShown: true,
-            contentStyle: { flex: 1 },
-          }}
-        />
-        <Stack.Screen
-          name='Sign Up'
-          component={SignUpPage}
-          options={{
-            headerShown: true,
-            contentStyle: { flex: 1 },
-          }}
-        />
-      </Stack.Navigator>
+      <DrawerNavigator />
     </NavigationContainer>
   );
 };

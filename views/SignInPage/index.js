@@ -26,7 +26,7 @@ const SignInPage = () => {
                 <View style={styles.buttonContainer}>
                     <Button 
                         title="Sing Up" 
-                        onPress={() => navigation.navigate('Sign Up')} 
+                        onPress={() => navigation.navigate('SignUp')} 
                         color="#841584" />
                 </View>
             </View>

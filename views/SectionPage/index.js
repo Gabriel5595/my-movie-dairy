@@ -83,10 +83,10 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     iosContainer: {
-        paddingTop: 50, // Ajuste específico para iOS
+        paddingTop: 50,
     },
     androidContainer: {
-        paddingTop: 20, // Ajuste específico para Android
+        paddingTop: 20,
     },
     titleContainer: {
         marginLeft: 16,
@@ -98,16 +98,31 @@ const styles = StyleSheet.create({
         color: "#66FCF1",
     },
     gridContainer: {
-        flex: 1,
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-evenly", // Distribui o espaço entre os itens
+        justifyContent: Platform.select({
+            android: 'space-around',
+            ios: 'space-around',
+        }),
         alignItems: "flex-start",
-        paddingHorizontal: 8,
+        paddingHorizontal: Platform.select({
+            web: 16,
+            default: 8,
+        }),
     },
     card: {
-        width: "45%", // Cada cartão ocupa quase metade da largura da tela
-        marginBottom: 16,
+        width: Platform.select({
+            web: "13%",
+            default: "40%",
+        }),
+        marginBottom: Platform.select({
+            web: 8,
+            default: 16,
+        }),
+        marginHorizontal: Platform.select({
+            web: 8,
+            default: 0,
+        }),
     },
 });
 
