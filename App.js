@@ -83,7 +83,7 @@ function DrawerNavigator() {
       />
     </Drawer.Navigator>
   );
-}
+};
 
 const App = () => {
   return (
