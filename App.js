@@ -45,12 +45,16 @@ function DrawerNavigator() {
       <Drawer.Screen
         name="Favorites"
         component={FavoritePage}
-        options={{ title: 'Favorites' }}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          title: 'Favorites' }}
       />
       <Drawer.Screen
         name="Profile"
         component={ProfilePage}
-        options={{ title: 'Profile' }}
+        options={{
+          drawerItemStyle: { display: 'none' },
+          title: 'Profile' }}
       />
 
       <Drawer.Screen
