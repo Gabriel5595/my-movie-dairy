@@ -1,4 +1,4 @@
-import { TMDB_API_KEY } from '@env'; // Importa a variável do .env
+import { TMDB_API_KEY } from '@env';
 
 const tmdbApi = () => ({
     method: 'GET',
