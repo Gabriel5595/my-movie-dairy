@@ -7,15 +7,15 @@ const MovieCard = ({ poster, score, title, releaseDate, id }) => {
 
     return (
         <Pressable
-            onPress={() => navigation.navigate('Movie Details', {poster, score, title, releaseDate, id})}
+            onPress={() => navigation.navigate('Movie Details', { poster, score, title, releaseDate, id })}
         >
             <View style={styles.cardContainer}>
-                
                 <View style={styles.basicContainer}>
                     <View style={styles.posterContainer}>
-                        <Image 
+                        <Image
                             style={styles.poster}
-                            source={{ uri: poster}}/>
+                            source={{ uri: poster }}
+                        />
                     </View>
 
                     <View style={styles.scoreContainer}>
@@ -25,11 +25,17 @@ const MovieCard = ({ poster, score, title, releaseDate, id }) => {
 
                 <View style={styles.textContainer}>
                     <View style={styles.titleContainer}>
-                        <Text style={styles.titleText}>{title}</Text>
+                        <Text
+                            style={styles.titleText}
+                            numberOfLines={2}
+                            ellipsizeMode="tail"
+                        >
+                            {title}
+                        </Text>
                     </View>
 
                     <View style={styles.releaseContainer}>
-                        <Text>{releaseDate.split('-').reverse().join('.')}</Text>
+                        <Text>{releaseDate ? releaseDate.split('-').reverse().join('.') : 'N/A'}</Text>
                     </View>
                 </View>
             </View>
@@ -42,9 +48,8 @@ const styles = StyleSheet.create({
         margin: 10,
         height: 350,
         width: 160,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        flexDirection: 'column',
+        alignItems: 'center',
         backgroundColor: '#f5f5f5',
         shadowColor: '#000',
         shadowOpacity: 0.1,
@@ -52,45 +57,45 @@ const styles = StyleSheet.create({
         elevation: 2,
         borderRadius: 10,
     },
-
-
     basicContainer: {
         width: 150,
         height: 200,
-        margin: 10
+        margin: 10,
     },
     poster: {
         height: 200,
-        resizeMode: "contain"
+        resizeMode: 'contain',
     },
-    
     scoreContainer: {
-        width: 35,
-        backgroundColor: "black",
-        alignItems: "center",
+        width: 40,
+        height: 40,
+        backgroundColor: '#45A29E',
+        justifyContent: 'center',
+        alignItems: 'center',
         marginHorizontal: 20,
         marginTop: -20,
-        borderRadius: 50
+        borderRadius: 50,
     },
     scoreText: {
-        color: "white",
-        fontSize: 24
+        color: 'white',
+        fontSize: 20,
     },
-
-
     textContainer: {
         margin: 10,
         width: 140,
-        flex: 1
+        flex: 1,
+    },
+    titleContainer: {
+        flex: 1,
+        overflow: 'hidden',
     },
     titleText: {
-        fontSize: 20,
-        fontWeight: "bold"
+        fontSize: 18,
+        fontWeight: 'bold',
     },
-
-    titleContainer :{
-        flex: 1,
-    }
+    releaseContainer: {
+        marginTop: 5,
+    },
 });
 
 export default MovieCard;
