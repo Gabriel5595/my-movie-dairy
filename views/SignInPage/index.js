@@ -1,33 +1,59 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { supabase } from '../../service/emailAuth/supabaseClient';
 
 const SignInPage = () => {
-
     const navigation = useNavigation();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSignIn = async () => {
+        setError('');
+
+        const { error } = await supabase.auth.signInWithPassword({
+            email: email.trim(),
+            password: password.trim(),
+        });
+
+        if (error) {
+            setError(error.message);
+        } else {
+            // Sucesso no login
+            // Navegue para a tela principal, por exemplo: 
+            navigation.navigate('Home');
+        }
+    };
 
     return (
         <View style={styles.container}>
             <View style={styles.loginBox}>
                 <Text style={styles.title}>Login</Text>
+                {error ? <Text style={{ color: 'red', marginBottom: 10 }}>{error}</Text> : null}
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
                     keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Password"
                     secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
                 />
                 <View style={styles.buttonContainer}>
-                    <Button title="Send" onPress={() => { }} />
+                    <Button title="Send" onPress={handleSignIn} />
                 </View>
                 <View style={styles.buttonContainer}>
-                    <Button 
-                        title="Sing Up" 
-                        onPress={() => navigation.navigate('SignUp')} 
-                        color="#841584" />
+                    <Button
+                        title="Sign Up"
+                        onPress={() => navigation.navigate('SignUp')}
+                        color="#841584"
+                    />
                 </View>
             </View>
         </View>

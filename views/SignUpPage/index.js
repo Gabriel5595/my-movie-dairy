@@ -1,28 +1,64 @@
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { supabase } from '../../service/emailAuth/supabaseClient';
 
 const SignUpPage = () => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [error, setError] = useState('');
+
+    const handleSignUp = async () => {
+        setError('');
+
+        if (password !== confirmPassword) {
+            setError('As senhas não conferem.');
+            return;
+        }
+
+        const { error } = await supabase.auth.signUp({
+            email: email.trim(),
+            password: password.trim(),
+        });
+
+        if (error) {
+            setError(error.message);
+        } else {
+            Alert.alert(
+                'Cadastro realizado',
+                'Verifique seu email para confirmar o cadastro.'
+            );
+        }
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.signUpBox}>
                 <Text style={styles.title}>Sign Up</Text>
+                {error ? <Text style={{color: 'red', marginBottom: 10}}>{error}</Text> : null}
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
                     keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Password"
                     secureTextEntry
+                    value={password}
+                    onChangeText={setPassword}
                 />
                 <TextInput
                     style={styles.input}
                     placeholder="Confirm password"
                     secureTextEntry
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
                 />
                 <View style={styles.buttonContainer}>
-                    <Button title="SEND" onPress={() => { }} />
+                    <Button title="SEND" onPress={handleSignUp} />
                 </View>
             </View>
         </View>

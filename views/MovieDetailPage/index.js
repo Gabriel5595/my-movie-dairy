@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Text, StyleSheet, Image, View, Modal, TouchableOpacity, Platform, Dimensions, ScrollView } from 'react-native';
+import { Text, StyleSheet, Image, View, Modal, TouchableOpacity, Platform, Dimensions, ScrollView, Alert, Linking } from 'react-native';
 import tmdbApi from "../../service/tmdbApi";
 import Footer from "../../components/Footer";
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -12,6 +12,7 @@ const MovieDetailPage = ({ route }) => {
     const [isModalVisible, setModalVisible] = useState(false);
 
     const BASE_URL = "https://api.themoviedb.org/3";
+    const isWeb = Platform.OS === 'web'; // Verifica a plataforma
 
     const fetchDetails = (id, BASE_URL) => {
         const headers = tmdbApi();
@@ -38,8 +39,18 @@ const MovieDetailPage = ({ route }) => {
         setModalVisible(!isModalVisible);
     };
 
-    // Detect platform
-    const isWeb = Platform.OS === 'web';
+    // Função para compartilhar via WhatsApp
+    const handleWhatsAppShare = () => {
+        const movieInfo = `Confira este filme:\n\nTítulo: ${title}\nNota: ${parseFloat(score).toFixed(1)}\nLançamento: ${releaseDate}\n\nSinopse: ${movieDetails.overview}`;
+        const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(movieInfo)}`;
+
+        Linking.openURL(whatsappUrl).catch(() => {
+            Alert.alert(
+                "WhatsApp não instalado",
+                "Parece que o WhatsApp não está instalado no seu dispositivo."
+            );
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -57,7 +68,9 @@ const MovieDetailPage = ({ route }) => {
                     <View style={isWeb ? styles.mainInfoContainerWeb : styles.mainInfoContainerMobile}>
                         <View style={styles.basicInfoContainer}>
                             <Text style={styles.textTitle}>{title}</Text>
-                            <Text style={styles.textAddInfo}>{releaseDate.split('-').reverse().join('.')} - {movieDetails.genres ? movieDetails.genres.map(genre => genre.name).join(', ') : "Sem gênero"} - {movieDetails.runtime}min</Text>
+                            <Text style={styles.textAddInfo}>
+                                {releaseDate.split('-').reverse().join('.')} - {movieDetails.genres ? movieDetails.genres.map(genre => genre.name).join(', ') : "Sem gênero"} - {movieDetails.runtime}min
+                            </Text>
                         </View>
 
                         <View style={styles.scoreSynopsisContainer}>
@@ -71,6 +84,13 @@ const MovieDetailPage = ({ route }) => {
                                 <Text style={styles.SynopsisTitle}>Synopsis</Text>
                                 <Text style={styles.SynopsisText}>{movieDetails.overview}</Text>
                             </View>
+
+                            {/* Só exibe o botão se não for web (iOS ou Android) */}
+                            {!isWeb && (
+                                <TouchableOpacity style={styles.shareButton} onPress={handleWhatsAppShare}>
+                                    <Text style={styles.shareButtonText}>Compartilhar no WhatsApp</Text>
+                                </TouchableOpacity>
+                            )}
                         </View>
 
                         <View style={styles.actorsContainer}>
@@ -208,6 +228,18 @@ const styles = StyleSheet.create({
     actorsNames: {
         color: "white",
         fontSize: 16,
+        textAlign: 'center',
+    },
+    shareButton: {
+        backgroundColor: '#25D366', // Cor do WhatsApp
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+        marginTop: 10,
+    },
+    shareButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
         textAlign: 'center',
     },
 });

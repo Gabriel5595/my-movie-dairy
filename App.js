@@ -1,8 +1,10 @@
-import React from 'react';
+// sprint 4
+
+import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+
 import HomePage from './views/HomePage';
 import SignInPage from './views/SignInPage';
 import SearchPage from './views/SearchPage';
@@ -12,9 +14,13 @@ import SectionPage from './views/SectionPage';
 import MovieDetailPage from './views/MovieDetailPage';
 import SignUpPage from './views/SignUpPage';
 
+import { AuthProvider, AuthContext } from './service/emailAuth/authContext';
+
 const Drawer = createDrawerNavigator();
 
 function DrawerNavigator() {
+  const { user } = useContext(AuthContext);
+
   return (
     <Drawer.Navigator
       initialRouteName="Home"
@@ -33,31 +39,39 @@ function DrawerNavigator() {
         component={HomePage}
         options={{ title: 'Home Page' }}
       />
-      <Drawer.Screen
-        name="SignIn"
-        component={SignInPage}
-        options={{ title: 'Sign In' }}
-      />
-      <Drawer.Screen
-        name="Search"
-        component={SearchPage}
-        options={{ title: 'Search Movies' }}
-      />
+
+      {!user && (
+        <Drawer.Screen
+          name="SignIn"
+          component={SignInPage}
+          options={{ title: 'Sign In' }}
+        />
+      )}
+
+      {user && (
+        <Drawer.Screen
+          name="Search"
+          component={SearchPage}
+          options={{ title: 'Search Movies' }}
+        />
+      )}
+
       <Drawer.Screen
         name="Favorites"
         component={FavoritePage}
         options={{
           drawerItemStyle: { display: 'none' },
-          title: 'Favorites' }}
+          title: 'Favorites'
+        }}
       />
       <Drawer.Screen
         name="Profile"
         component={ProfilePage}
         options={{
           drawerItemStyle: { display: 'none' },
-          title: 'Profile' }}
+          title: 'Profile'
+        }}
       />
-
       <Drawer.Screen
         name="Category"
         component={SectionPage}
@@ -88,9 +102,11 @@ function DrawerNavigator() {
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <DrawerNavigator />
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+        <DrawerNavigator />
+      </NavigationContainer>
+    </AuthProvider>
   );
 };
 
