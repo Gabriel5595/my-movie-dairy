@@ -12,7 +12,7 @@ const MovieDetailPage = ({ route }) => {
     const [isModalVisible, setModalVisible] = useState(false);
 
     const BASE_URL = "https://api.themoviedb.org/3";
-    const isWeb = Platform.OS === 'web'; // Verifica a plataforma
+    const isWeb = Platform.OS === 'web';
 
     const fetchDetails = (id, BASE_URL) => {
         const headers = tmdbApi();
@@ -39,7 +39,6 @@ const MovieDetailPage = ({ route }) => {
         setModalVisible(!isModalVisible);
     };
 
-    // Função para compartilhar via WhatsApp
     const handleWhatsAppShare = () => {
         const movieInfo = `Confira este filme:\n\nTítulo: ${title}\nNota: ${parseFloat(score).toFixed(1)}\nLançamento: ${releaseDate}\n\nSinopse: ${movieDetails.overview}`;
         const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(movieInfo)}`;
@@ -85,7 +84,6 @@ const MovieDetailPage = ({ route }) => {
                                 <Text style={styles.SynopsisText}>{movieDetails.overview}</Text>
                             </View>
 
-                            {/* Só exibe o botão se não for web (iOS ou Android) */}
                             {!isWeb && (
                                 <TouchableOpacity style={styles.shareButton} onPress={handleWhatsAppShare}>
                                     <Text style={styles.shareButtonText}>Compartilhar no WhatsApp</Text>
@@ -231,7 +229,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     shareButton: {
-        backgroundColor: '#25D366', // Cor do WhatsApp
+        backgroundColor: '#25D366',
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 10,

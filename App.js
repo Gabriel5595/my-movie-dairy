@@ -1,5 +1,3 @@
-// sprint 4
-
 import React, { useContext } from 'react';
 import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';

@@ -20,8 +20,6 @@ const SignInPage = () => {
         if (error) {
             setError(error.message);
         } else {
-            // Sucesso no login
-            // Navegue para a tela principal, por exemplo: 
             navigation.navigate('Home');
         }
     };
